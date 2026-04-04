@@ -5,341 +5,192 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ReplyIQ — Join the Waitlist</title>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: #0a0a0f;
-      color: #f0f0f5;
-      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
+      background: #0d0d1a;
+      color: #e0e0e0;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 2rem;
+      padding: 24px;
     }
-
     .logo {
-      font-size: 1.6rem;
+      font-size: 2rem;
       font-weight: 800;
-      letter-spacing: -0.5px;
-      margin-bottom: 2.5rem;
-      color: #fff;
+      background: linear-gradient(135deg, #6c63ff, #3ecfcf);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
     }
-    .logo span { color: #7c6af7; }
-
+    .tagline { color: #888; font-size: 0.95rem; margin-bottom: 40px; }
     .card {
-      background: #13131a;
-      border: 1px solid #1e1e2e;
-      border-radius: 20px;
-      padding: 2.8rem 2.5rem;
+      background: #16162a;
+      border: 1px solid #2a2a4a;
+      border-radius: 16px;
+      padding: 40px;
       width: 100%;
       max-width: 480px;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
     }
-
-    .badge {
-      display: inline-block;
-      background: rgba(124, 106, 247, 0.15);
-      color: #a99ef8;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 0.35rem 0.85rem;
-      border-radius: 999px;
-      border: 1px solid rgba(124,106,247,0.25);
-      margin-bottom: 1.2rem;
-    }
-
-    h1 {
-      font-size: 1.75rem;
-      font-weight: 800;
-      line-height: 1.25;
-      margin-bottom: 0.75rem;
-      color: #fff;
-    }
-
-    .sub {
-      font-size: 0.95rem;
-      color: #888;
-      line-height: 1.6;
-      margin-bottom: 2rem;
-    }
-
-    .form-group {
-      margin-bottom: 1.1rem;
-    }
-
-    label {
-      display: block;
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: #aaa;
-      margin-bottom: 0.45rem;
-      letter-spacing: 0.03em;
-    }
-
-    input[type="text"],
-    input[type="email"] {
+    h1 { font-size: 1.6rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .subtitle { color: #888; font-size: 0.95rem; margin-bottom: 28px; line-height: 1.5; }
+    label { display: block; font-size: 0.85rem; color: #aaa; margin-bottom: 6px; font-weight: 500; }
+    input {
       width: 100%;
-      background: #0d0d14;
-      border: 1px solid #2a2a3a;
-      border-radius: 10px;
-      padding: 0.75rem 1rem;
-      color: #f0f0f5;
+      padding: 12px 16px;
+      background: #0d0d1a;
+      border: 1px solid #2a2a4a;
+      border-radius: 8px;
+      color: #fff;
       font-size: 0.95rem;
-      outline: none;
+      margin-bottom: 18px;
       transition: border-color 0.2s;
     }
-
-    input[type="text"]:focus,
-    input[type="email"]:focus {
-      border-color: #7c6af7;
-    }
-
-    input::placeholder { color: #444; }
-
-    .platform-label {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: #aaa;
-      letter-spacing: 0.03em;
-      margin-bottom: 0.6rem;
-      display: block;
-    }
-
-    .platforms {
-      display: flex;
-      gap: 0.75rem;
-    }
-
-    .platform-option {
+    input:focus { outline: none; border-color: #6c63ff; }
+    .platform-label { margin-bottom: 10px; }
+    .platform-options { display: flex; gap: 10px; margin-bottom: 24px; }
+    .platform-btn {
       flex: 1;
-      position: relative;
-    }
-
-    .platform-option input[type="checkbox"] {
-      position: absolute;
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .platform-option label {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 0.65rem 1rem;
-      background: #0d0d14;
-      border: 1px solid #2a2a3a;
-      border-radius: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #2a2a4a;
+      background: #0d0d1a;
+      color: #888;
       cursor: pointer;
       font-size: 0.9rem;
-      font-weight: 600;
-      color: #888;
       transition: all 0.2s;
-      letter-spacing: 0;
-      margin-bottom: 0;
+      text-align: center;
     }
-
-    .platform-option input:checked + label {
-      border-color: #7c6af7;
-      background: rgba(124,106,247,0.1);
-      color: #a99ef8;
+    .platform-btn.active {
+      border-color: #6c63ff;
+      background: rgba(108, 99, 255, 0.15);
+      color: #6c63ff;
+      font-weight: 600;
     }
-
-    .platform-option label:hover {
-      border-color: #555;
-      color: #ccc;
-    }
-
-    .platform-icon { font-size: 1.1rem; }
-
-    .btn {
+    .submit-btn {
       width: 100%;
-      margin-top: 1.5rem;
-      padding: 0.9rem;
-      background: linear-gradient(135deg, #7c6af7, #5b4fe0);
+      padding: 14px;
+      background: linear-gradient(135deg, #6c63ff, #3ecfcf);
+      border: none;
+      border-radius: 8px;
       color: #fff;
       font-size: 1rem;
       font-weight: 700;
-      border: none;
-      border-radius: 12px;
       cursor: pointer;
-      transition: opacity 0.2s, transform 0.15s;
-      letter-spacing: 0.02em;
+      transition: opacity 0.2s;
     }
-
-    .btn:hover { opacity: 0.9; transform: translateY(-1px); }
-    .btn:active { transform: translateY(0); }
-
-    .fine-print {
-      font-size: 0.78rem;
-      color: #555;
-      text-align: center;
-      margin-top: 1rem;
-    }
-
-    .success {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 1rem 0;
-    }
-
-    .success-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-
-    .success h2 {
-      font-size: 1.4rem;
-      font-weight: 800;
-      margin-bottom: 0.6rem;
-      color: #fff;
-    }
-
-    .success p {
-      font-size: 0.95rem;
-      color: #888;
-      line-height: 1.6;
-    }
-
-    .success .spot {
-      margin-top: 1.2rem;
-      background: rgba(124,106,247,0.12);
-      border: 1px solid rgba(124,106,247,0.25);
-      border-radius: 10px;
-      padding: 0.65rem 1.2rem;
+    .submit-btn:hover { opacity: 0.9; }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .social-proof { text-align: center; color: #555; font-size: 0.8rem; margin-top: 16px; }
+    .social-proof span { color: #6c63ff; font-weight: 600; }
+    .perk {
+      background: rgba(108, 99, 255, 0.1);
+      border: 1px solid rgba(108, 99, 255, 0.3);
+      border-radius: 8px;
+      padding: 12px 16px;
       font-size: 0.85rem;
-      color: #a99ef8;
-      font-weight: 600;
+      color: #aaa;
+      margin-bottom: 24px;
     }
-
-    .divider {
-      border: none;
-      border-top: 1px solid #1e1e2e;
-      margin: 1.8rem 0;
+    .perk strong { color: #6c63ff; }
+    .success-state { display: none; text-align: center; }
+    .success-icon { font-size: 3rem; margin-bottom: 16px; }
+    .success-state h2 { color: #fff; font-size: 1.4rem; margin-bottom: 8px; }
+    .success-state p { color: #888; line-height: 1.6; font-size: 0.95rem; }
+    .error-msg { color: #ff6b6b; font-size: 0.85rem; margin-top: -12px; margin-bottom: 12px; display: none; }
+    .config-banner {
+      background: rgba(255, 200, 0, 0.1);
+      border: 1px solid rgba(255, 200, 0, 0.3);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.8rem;
+      color: #ffc800;
+      margin-bottom: 20px;
+      display: none;
     }
-
-    .social-proof {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      font-size: 0.82rem;
-      color: #555;
-      margin-top: 1.5rem;
-    }
-
-    .avatars {
-      display: flex;
-    }
-
-    .avatar {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      border: 2px solid #13131a;
-      margin-left: -6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.65rem;
-      font-weight: 700;
-      color: #fff;
-    }
-
-    .av1 { background: #7c6af7; margin-left: 0; }
-    .av2 { background: #f76a8a; }
-    .av3 { background: #6af7c0; }
-    .av4 { background: #f7b96a; }
   </style>
 </head>
 <body>
-
-  <div class="logo">Reply<span>IQ</span></div>
-
+  <div class="logo">ReplyIQ</div>
+  <p class="tagline">AI-powered review replies for local businesses</p>
   <div class="card">
-    <div class="badge">🚀 Early Access</div>
-    <h1>Be first to automate your review replies</h1>
-    <p class="sub">ReplyIQ drafts personalized responses to your Google & Yelp reviews — approve in one click. Join the waitlist for early access + a free first month.</p>
-
-    <div id="formWrap">
-      <form id="waitlistForm" onsubmit="handleSubmit(event)">
-        <div class="form-group">
-          <label for="business">Business Name</label>
-          <input type="text" id="business" name="business" placeholder="e.g. Mike's Auto Repair" required />
-        </div>
-
-        <div class="form-group">
-          <label for="email">Work Email</label>
-          <input type="email" id="email" name="email" placeholder="you@yourbusiness.com" required />
-        </div>
-
-        <div class="form-group">
-          <span class="platform-label">Which platforms do you use?</span>
-          <div class="platforms">
-            <div class="platform-option">
-              <input type="checkbox" id="google" name="platforms" value="google" checked />
-              <label for="google"><span class="platform-icon">⭐</span> Google</label>
-            </div>
-            <div class="platform-option">
-              <input type="checkbox" id="yelp" name="platforms" value="yelp" />
-              <label for="yelp"><span class="platform-icon">🔴</span> Yelp</label>
-            </div>
-            <div class="platform-option">
-              <input type="checkbox" id="both" name="platforms" value="both" />
-              <label for="both"><span class="platform-icon">✨</span> Both</label>
-            </div>
-          </div>
-        </div>
-
-        <button type="submit" class="btn" id="submitBtn">Claim My Early Access Spot →</button>
-        <p class="fine-print">No credit card required. We'll email you when you're in. 🔒</p>
-      </form>
+    <div class="config-banner" id="configBanner">
+      ⚙️ <strong>Dev mode:</strong> Set your Google Apps Script URL in the JS config below.
     </div>
-
-    <div class="success" id="successWrap">
+    <div id="formState">
+      <h1>Get Early Access</h1>
+      <p class="subtitle">Join the waitlist and get your first month free when we launch.</p>
+      <div class="perk">🎁 <strong>Early Bird Perk:</strong> Waitlist members get their first month free.</div>
+      <form id="waitlistForm">
+        <label>Business Name</label>
+        <input type="text" id="businessName" placeholder="e.g. Joe's Pizza" required />
+        <label>Email Address</label>
+        <input type="email" id="email" placeholder="you@yourbusiness.com" required />
+        <label class="platform-label">Which platform do you use most?</label>
+        <div class="platform-options">
+          <div class="platform-btn active" data-val="Google">📍 Google</div>
+          <div class="platform-btn" data-val="Yelp">⭐ Yelp</div>
+          <div class="platform-btn" data-val="Both">🔀 Both</div>
+        </div>
+        <div class="error-msg" id="errorMsg">Something went wrong. Please try again.</div>
+        <button type="submit" class="submit-btn" id="submitBtn">Join the Waitlist →</button>
+      </form>
+      <div class="social-proof"><span>47 business owners</span> already on the waitlist</div>
+    </div>
+    <div class="success-state" id="successState">
       <div class="success-icon">🎉</div>
       <h2>You're on the list!</h2>
-      <p>We'll reach out to <strong id="confirmedEmail"></strong> as soon as your spot opens up.</p>
-      <div class="spot">🏆 Early access = first month free</div>
-    </div>
-
-    <hr class="divider" />
-
-    <div class="social-proof">
-      <div class="avatars">
-        <div class="avatar av1">M</div>
-        <div class="avatar av2">S</div>
-        <div class="avatar av3">J</div>
-        <div class="avatar av4">R</div>
-      </div>
-      <span>47 business owners already waiting</span>
+      <p>Check your inbox — we sent a confirmation to <strong id="confirmedEmail"></strong>.<br><br>We'll reach out as soon as your early access is ready.</p>
     </div>
   </div>
-
   <script>
-    function handleSubmit(e) {
+    const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
+    if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+      document.getElementById('configBanner').style.display = 'block';
+    }
+    let selectedPlatform = 'Google';
+    document.querySelectorAll('.platform-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.platform-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedPlatform = btn.dataset.val;
+      });
+    });
+    document.getElementById('waitlistForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const email = document.getElementById('email').value;
       const btn = document.getElementById('submitBtn');
-
-      btn.textContent = 'Saving your spot...';
+      const errorMsg = document.getElementById('errorMsg');
+      const businessName = document.getElementById('businessName').value.trim();
+      const email = document.getElementById('email').value.trim();
       btn.disabled = true;
-
-      setTimeout(() => {
-        document.getElementById('formWrap').style.display = 'none';
-        const sw = document.getElementById('successWrap');
-        sw.style.display = 'flex';
-        document.getElementById('confirmedEmail').textContent = email;
-      }, 900);
+      btn.textContent = 'Joining...';
+      errorMsg.style.display = 'none';
+      if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+        setTimeout(() => showSuccess(email), 800);
+        return;
+      }
+      try {
+        const res = await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ businessName, email, platform: selectedPlatform, source: 'waitlist-form' })
+        });
+        const data = await res.json();
+        if (data.success) { showSuccess(email); } else { throw new Error(data.message); }
+      } catch (err) {
+        console.error(err);
+        errorMsg.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Join the Waitlist →';
+      }
+    });
+    function showSuccess(email) {
+      document.getElementById('confirmedEmail').textContent = email;
+      document.getElementById('formState').style.display = 'none';
+      document.getElementById('successState').style.display = 'block';
     }
   </script>
-
 </body>
 </html>
