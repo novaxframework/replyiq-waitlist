@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ReplyIQ — Join the Waitlist</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0a0a0f;
+      color: #f0f0f5;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 2.5rem;
+      color: #fff;
+    }
+    .logo span { color: #7c6af7; }
+
+    .card {
+      background: #13131a;
+      border: 1px solid #1e1e2e;
+      border-radius: 20px;
+      padding: 2.8rem 2.5rem;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(124, 106, 247, 0.15);
+      color: #a99ef8;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid rgba(124,106,247,0.25);
+      margin-bottom: 1.2rem;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 0.75rem;
+      color: #fff;
+    }
+
+    .sub {
+      font-size: 0.95rem;
+      color: #888;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.1rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #aaa;
+      margin-bottom: 0.45rem;
+      letter-spacing: 0.03em;
+    }
+
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      background: #0d0d14;
+      border: 1px solid #2a2a3a;
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      color: #f0f0f5;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus {
+      border-color: #7c6af7;
+    }
+
+    input::placeholder { color: #444; }
+
+    .platform-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #aaa;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+
+    .platforms {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .platform-option {
+      flex: 1;
+      position: relative;
+    }
+
+    .platform-option input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .platform-option label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1rem;
+      background: #0d0d14;
+      border: 1px solid #2a2a3a;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #888;
+      transition: all 0.2s;
+      letter-spacing: 0;
+      margin-bottom: 0;
+    }
+
+    .platform-option input:checked + label {
+      border-color: #7c6af7;
+      background: rgba(124,106,247,0.1);
+      color: #a99ef8;
+    }
+
+    .platform-option label:hover {
+      border-color: #555;
+      color: #ccc;
+    }
+
+    .platform-icon { font-size: 1.1rem; }
+
+    .btn {
+      width: 100%;
+      margin-top: 1.5rem;
+      padding: 0.9rem;
+      background: linear-gradient(135deg, #7c6af7, #5b4fe0);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+      letter-spacing: 0.02em;
+    }
+
+    .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+
+    .fine-print {
+      font-size: 0.78rem;
+      color: #555;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .success {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    .success-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .success h2 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 0.6rem;
+      color: #fff;
+    }
+
+    .success p {
+      font-size: 0.95rem;
+      color: #888;
+      line-height: 1.6;
+    }
+
+    .success .spot {
+      margin-top: 1.2rem;
+      background: rgba(124,106,247,0.12);
+      border: 1px solid rgba(124,106,247,0.25);
+      border-radius: 10px;
+      padding: 0.65rem 1.2rem;
+      font-size: 0.85rem;
+      color: #a99ef8;
+      font-weight: 600;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #1e1e2e;
+      margin: 1.8rem 0;
+    }
+
+    .social-proof {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      color: #555;
+      margin-top: 1.5rem;
+    }
+
+    .avatars {
+      display: flex;
+    }
+
+    .avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid #13131a;
+      margin-left: -6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .av1 { background: #7c6af7; margin-left: 0; }
+    .av2 { background: #f76a8a; }
+    .av3 { background: #6af7c0; }
+    .av4 { background: #f7b96a; }
+  </style>
+</head>
+<body>
+
+  <div class="logo">Reply<span>IQ</span></div>
+
+  <div class="card">
+    <div class="badge">🚀 Early Access</div>
+    <h1>Be first to automate your review replies</h1>
+    <p class="sub">ReplyIQ drafts personalized responses to your Google & Yelp reviews — approve in one click. Join the waitlist for early access + a free first month.</p>
+
+    <div id="formWrap">
+      <form id="waitlistForm" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+          <label for="business">Business Name</label>
+          <input type="text" id="business" name="business" placeholder="e.g. Mike's Auto Repair" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Work Email</label>
+          <input type="email" id="email" name="email" placeholder="you@yourbusiness.com" required />
+        </div>
+
+        <div class="form-group">
+          <span class="platform-label">Which platforms do you use?</span>
+          <div class="platforms">
+            <div class="platform-option">
+              <input type="checkbox" id="google" name="platforms" value="google" checked />
+              <label for="google"><span class="platform-icon">⭐</span> Google</label>
+            </div>
+            <div class="platform-option">
+              <input type="checkbox" id="yelp" name="platforms" value="yelp" />
+              <label for="yelp"><span class="platform-icon">🔴</span> Yelp</label>
+            </div>
+            <div class="platform-option">
+              <input type="checkbox" id="both" name="platforms" value="both" />
+              <label for="both"><span class="platform-icon">✨</span> Both</label>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn" id="submitBtn">Claim My Early Access Spot →</button>
+        <p class="fine-print">No credit card required. We'll email you when you're in. 🔒</p>
+      </form>
+    </div>
+
+    <div class="success" id="successWrap">
+      <div class="success-icon">🎉</div>
+      <h2>You're on the list!</h2>
+      <p>We'll reach out to <strong id="confirmedEmail"></strong> as soon as your spot opens up.</p>
+      <div class="spot">🏆 Early access = first month free</div>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="social-proof">
+      <div class="avatars">
+        <div class="avatar av1">M</div>
+        <div class="avatar av2">S</div>
+        <div class="avatar av3">J</div>
+        <div class="avatar av4">R</div>
+      </div>
+      <span>47 business owners already waiting</span>
+    </div>
+  </div>
+
+  <script>
+    function handleSubmit(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const btn = document.getElementById('submitBtn');
+
+      btn.textContent = 'Saving your spot...';
+      btn.disabled = true;
+
+      setTimeout(() => {
+        document.getElementById('formWrap').style.display = 'none';
+        const sw = document.getElementById('successWrap');
+        sw.style.display = 'flex';
+        document.getElementById('confirmedEmail').textContent = email;
+      }, 900);
+    }
+  </script>
+
+</body>
+</html>
