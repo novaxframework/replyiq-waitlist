@@ -227,19 +227,24 @@
       errorMsg.style.display = 'none';
 
       try {
-        await fetch(APPS_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            businessName,
-            email,
-            platform: selectedPlatform,
-            source: 'waitlist-form'
-          })
+        const params = new URLSearchParams({
+          businessName,
+          email,
+          platform: selectedPlatform,
+          source: 'waitlist-form'
         });
 
-        showSuccess(email);
+        // Fire via hidden iframe — no CORS issues with GET requests
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = APPS_SCRIPT_URL + '?' + params.toString();
+        document.body.appendChild(iframe);
+
+        // Show success after short delay
+        setTimeout(() => {
+          showSuccess(email);
+          document.body.removeChild(iframe);
+        }, 1500);
 
       } catch (err) {
         console.error(err);
