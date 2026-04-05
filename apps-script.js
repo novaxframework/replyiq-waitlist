@@ -1,17 +1,23 @@
 // ================================================
 // ReplyIQ Waitlist Backend — Google Apps Script
 // ================================================
-// SETUP INSTRUCTIONS:
-// 1. Go to script.google.com → New Project
-// 2. Paste this code
-// 3. Click Deploy → New Deployment → Web App
-// 4. Set "Who has access" to "Anyone"
-// 5. Copy the Web App URL and paste it into the frontend
+// IMPORTANT: Apps Script now handles doGet() with URL params
+// The frontend fires a GET request via hidden iframe (no CORS issues)
 
-function doPost(e) {
+function doGet(e) {
   try {
-    const data = JSON.parse(e.postData.contents);
+    const params = e.parameter;
+    
+    // If no email param, it's just a ping
+    if (!params.email) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ status: 'ReplyIQ Waitlist Backend is live ✅' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    
+    // Add header row if sheet is empty
     if (sheet.getLastRow() === 0) {
       sheet.appendRow(['Timestamp', 'Business Name', 'Email', 'Platform', 'Source']);
       const headerRange = sheet.getRange(1, 1, 1, 5);
@@ -19,29 +25,33 @@ function doPost(e) {
       headerRange.setFontColor('#ffffff');
       headerRange.setFontWeight('bold');
     }
+    
+    // Append the new signup
     sheet.appendRow([
       new Date().toISOString(),
-      data.businessName || '',
-      data.email || '',
-      data.platform || '',
-      data.source || 'waitlist-form'
+      params.businessName || '',
+      params.email || '',
+      params.platform || '',
+      params.source || 'waitlist-form'
     ]);
-    if (data.email) { sendConfirmationEmail(data.email, data.businessName); }
-    notifyOwner(data);
+    
+    // Send confirmation email to the user
+    if (params.email) {
+      sendConfirmationEmail(params.email, params.businessName);
+    }
+    
+    // Notify owner
+    notifyOwner(params);
+    
     return ContentService
       .createTextOutput(JSON.stringify({ success: true, message: 'Added to waitlist!' }))
       .setMimeType(ContentService.MimeType.JSON);
+      
   } catch (err) {
     return ContentService
       .createTextOutput(JSON.stringify({ success: false, message: err.toString() }))
       .setMimeType(ContentService.MimeType.JSON);
   }
-}
-
-function doGet(e) {
-  return ContentService
-    .createTextOutput(JSON.stringify({ status: 'ReplyIQ Waitlist Backend is live ✅' }))
-    .setMimeType(ContentService.MimeType.JSON);
 }
 
 function sendConfirmationEmail(email, businessName) {
@@ -62,7 +72,7 @@ function sendConfirmationEmail(email, businessName) {
             <strong style="color: #6c63ff;">🎁 Early Bird Perk</strong><br>
             <span style="color: #555;">As a waitlist member, you'll get your <strong>first month free</strong> when we launch.</span>
           </div>
-          <p style="color: #555; line-height: 1.6;">We'll reach out as soon as your access is ready. If you have questions just reply to this email.</p>
+          <p style="color: #555; line-height: 1.6;">We'll reach out as soon as your access is ready.</p>
           <p style="color: #888; font-size: 14px; margin-top: 32px;">— The ReplyIQ Team</p>
         </div>
       </div>
@@ -71,8 +81,9 @@ function sendConfirmationEmail(email, businessName) {
 }
 
 function notifyOwner(data) {
-  const ownerEmail = 'YOUR_EMAIL@gmail.com'; // ← UPDATE THIS
+  const ownerEmail = 'YOUR_EMAIL@gmail.com'; // ← Update this
   const count = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().getLastRow() - 1;
+  
   MailApp.sendEmail({
     to: ownerEmail,
     subject: `🔔 New ReplyIQ Signup — ${data.businessName || data.email}`,
