@@ -154,16 +154,6 @@
       margin-bottom: 12px;
       display: none;
     }
-    .config-banner {
-      background: rgba(255, 200, 0, 0.1);
-      border: 1px solid rgba(255, 200, 0, 0.3);
-      border-radius: 8px;
-      padding: 10px 14px;
-      font-size: 0.8rem;
-      color: #ffc800;
-      margin-bottom: 20px;
-      display: none;
-    }
   </style>
 </head>
 <body>
@@ -172,10 +162,6 @@
   <p class="tagline">AI-powered review replies for local businesses</p>
 
   <div class="card">
-    <div class="config-banner" id="configBanner">
-      ⚙️ <strong>Dev mode:</strong> Set your Google Apps Script URL in the JS config below.
-    </div>
-
     <div id="formState">
       <h1>Get Early Access</h1>
       <p class="subtitle">Join the waitlist and get your first month free when we launch.</p>
@@ -219,10 +205,6 @@
   <script>
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxX0dm6a7nK0rUjiAsLfnIHE69rViotXm1_MYkFPgVHANMyHodjlXw383qRaIAhbsjCCw/exec';
 
-    if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
-      document.getElementById('configBanner').style.display = 'block';
-    }
-
     let selectedPlatform = 'Google';
     document.querySelectorAll('.platform-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -244,14 +226,10 @@
       btn.textContent = 'Joining...';
       errorMsg.style.display = 'none';
 
-      if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
-        setTimeout(() => showSuccess(email), 800);
-        return;
-      }
-
       try {
-        const res = await fetch(APPS_SCRIPT_URL, {
+        await fetch(APPS_SCRIPT_URL, {
           method: 'POST',
+          mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             businessName,
@@ -261,13 +239,8 @@
           })
         });
 
-        const data = await res.json();
+        showSuccess(email);
 
-        if (data.success) {
-          showSuccess(email);
-        } else {
-          throw new Error(data.message);
-        }
       } catch (err) {
         console.error(err);
         errorMsg.style.display = 'block';
